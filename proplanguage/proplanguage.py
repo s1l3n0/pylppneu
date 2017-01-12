@@ -1,5 +1,6 @@
 import pprint
 
+
 class Atom:
     # -- Fields --
     # name : String
@@ -12,44 +13,68 @@ class Atom:
     def __eq__(self, other):
         return self.__dict__ == other.__dict__
 
-class Literal(Atom):
+
+class Literal:
     # -- Fields --
+    # atom : Atom
     # neg : Boolean
-    def __init__(self, name, neg = False):
-        Atom.__init__(self, name)
+    def __init__(self, atom, neg = False):
+        self.atom = atom
         self.neg = neg
 
     def __str__(self):
-        return str(self.__dict__)
+        if (self.neg):
+            prefix = "-"
+        else:
+            prefix = ""
+        return prefix + str(self.atom)
 
     def __eq__(self, other):
         return self.__dict__ == other.__dict__
 
-class ExtLiteral(Literal):
+
+class ExtLiteral:
     # -- Fields --
+    # literal : Literal
     # naf : Boolean
-    def __init__(self, name, neg = False, naf = False):
-        Literal.__init__(self, name, neg)
+    def __init__(self, literal, naf = False):
+        self.literal = literal
         self.naf = naf
 
     def __str__(self):
-        return str(self.__dict__)
+        if (self.naf):
+            prefix = "not"
+        else:
+            prefix = ""
+        return prefix + str(self.literal)
 
     def __eq__(self, other):
         return self.__dict__ == other.__dict__
+
 
 class Formula:
     # -- Fields --
     # operator : Operator
     # inputFormulas : Formula list
-    # inputTerms : Term list
+    # inputTerms : ExtLiteral list
     def __init__(self, operator, inputFormulas = (), inputTerms = ()):
         self.operator = operator
         self.inputFormulas = inputFormulas
         self.inputTerms = inputTerms
 
     def __str__(self):
-        return str(self.__dict__)
+        output = "{'operator': " + str(self.operator) + ", "
+        if len(self.inputFormulas) > 0:
+            output = output + "'inputFormulas': ["
+            for inputFormula in self.inputFormulas:
+                output = output + str(inputFormula) + ", "
+            output = output[:-2] + "]"
+        elif len(self.inputTerms) > 0:
+            output = output + "'inputTerms': ["
+            for inputTerm in self.inputTerms:
+                output = output + str(inputTerm) + ", "
+            output = output[:-2] + "]"
+        return output + "}"
 
     def __eq__(self, other):
         return self.__dict__ == other.__dict__
@@ -66,8 +91,14 @@ class Operator:
 
 class Rule:
     # -- Fields --
-    # head : Expression
-    # body : Expression
+    # head : Formula
+    # body : Formula
     def __init__(self, head = None, body = None):
         self.head = head
         self.body = body
+
+    def __str__(self):
+        return "{'body': " + str(self.body) + ", 'head': " + str(self.head) + "}"
+
+    def __eq__(self, other):
+        return self.__dict__ == other.__dict__

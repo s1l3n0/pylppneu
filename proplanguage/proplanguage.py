@@ -8,7 +8,7 @@ class Atom:
         self.name = name
 
     def __str__(self):
-        return self.name
+        return "[A]" + self.name
 
     def __eq__(self, other):
         return self.__dict__ == other.__dict__
@@ -27,7 +27,7 @@ class Literal:
             prefix = "-"
         else:
             prefix = ""
-        return prefix + str(self.atom)
+        return "[L]" + prefix + str(self.atom)
 
     def __eq__(self, other):
         return self.__dict__ == other.__dict__
@@ -46,7 +46,7 @@ class ExtLiteral:
             prefix = "not"
         else:
             prefix = ""
-        return prefix + str(self.literal)
+        return "[E]" + prefix + str(self.literal)
 
     def __eq__(self, other):
         return self.__dict__ == other.__dict__
@@ -65,29 +65,47 @@ class Formula:
     def __str__(self):
         output = "{'operator': " + str(self.operator) + ", "
         if len(self.inputFormulas) > 0:
-            output = output + "'inputFormulas': ["
+            output += "'inputFormulas': ["
             for inputFormula in self.inputFormulas:
-                output = output + str(inputFormula) + ", "
+                output += str(inputFormula) + ", "
             output = output[:-2] + "]"
         elif len(self.inputTerms) > 0:
-            output = output + "'inputTerms': ["
+            output += "'inputTerms': ["
             for inputTerm in self.inputTerms:
-                output = output + str(inputTerm) + ", "
+                output += str(inputTerm) + ", "
             output = output[:-2] + "]"
         return output + "}"
 
     def __eq__(self, other):
         return self.__dict__ == other.__dict__
 
+    def extract_literals(self, filter = None):
+        literals = []
+        if len(self.inputFormulas) > 0:
+            for inputFormula in self.inputFormulas:
+                literals.extend(inputFormula.extract_literals(filter))
+        elif len(self.inputTerms) > 0:
+            for ext_literal in self.inputTerms:
+                if filter is None or ext_literal.naf is filter:
+                    literals.append(ext_literal.literal)
+        return literals
+
+    def extract_pos_literals(self):
+        return self.extract_literals(False)
+
+    def extract_neg_literals(self):
+        return self.extract_literals(True)
+
+    def extract_atoms(self):
+        return self.extract_literals(None)
+
 class Operator:
-    POS = 1
-    NEG = 2
-    NAF = 3
-    AND = 4
-    OR = 5
-    XOR = 6
-    IF = 7
-    CHOICE = 8
+    NONE = 0
+    AND = 1
+    OR = 2
+    XOR = 3
+    CHOICE = 4
+
 
 class Rule:
     # -- Fields --
@@ -102,3 +120,11 @@ class Rule:
 
     def __eq__(self, other):
         return self.__dict__ == other.__dict__
+
+    def extract_atoms(self):
+        atoms = []
+        if self.head is not None:
+            atoms.extend(self.head.extract_atoms())
+        if self.body is not None:
+            atoms.extend(self.body.extract_atoms())
+        return atoms

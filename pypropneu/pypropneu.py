@@ -14,8 +14,7 @@ class Node:
     # id
     # inputs : Arc list
     # outputs : Arc list
-    def __init__(self, id):
-        self.id = id
+    def __init__(self):
         self.inputs = []
         self.outputs = []
 
@@ -37,8 +36,7 @@ class Arc:
     # target : Node
     # arc type : NORMAL, INHIBITOR or RESET
     # weight : Integer
-    def __init__(self, id, source, target, type, weight):
-        self.id = id
+    def __init__(self, source, target, type, weight):
         self.source = source
         self.target = target
         self.type = type
@@ -50,8 +48,8 @@ class Place(Node):
     # -- Fields --
     # name : String
     # marking : Token list
-    def __init__(self, id, name, marking):
-        Node.__init__(self, id)
+    def __init__(self, name, marking):
+        Node.__init__(self)
         self.name = name
         self.marking = marking
 
@@ -71,8 +69,8 @@ class Binding(Node):
     # -- Fields --
     # name : String
     # operator : Operator
-    def __init__(self, id, name, operator):
-        Node.__init__(self, id)
+    def __init__(self, name, operator):
+        Node.__init__(self)
         self.name = name
         self.operator = operator
 
@@ -80,8 +78,8 @@ class Transition(Node):
     # -- Fields --
     # name : String
     # operation : Operation
-    def __init__(self, id, name, operation):
-        Node.__init__(self, id)
+    def __init__(self, name, operation):
+        Node.__init__(self)
         self.name = name
         self.operation = operation
 
@@ -183,6 +181,7 @@ class PetriNet(PetriNetStructure):
 
         if firedTransition is not None:
             events = firedTransition.ProduceOutputTokens()
+            print firedTransition.name + " fires"
             ## TODO: for now I implement a FIFO mechanism
             self.transitions.remove(firedTransition)
             self.transitions.append(firedTransition)

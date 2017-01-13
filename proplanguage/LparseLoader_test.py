@@ -1,5 +1,5 @@
 import unittest
-import LparseLoader
+from LparseLoader import parseString
 
 class PropLanguageTestCase(unittest.TestCase):
 

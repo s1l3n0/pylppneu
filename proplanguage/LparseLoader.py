@@ -66,7 +66,7 @@ class LparseInputLoaderListener(LparseInputListener):
         if ctx.ext_literal():
             ext_literal = self.decorations[ctx.ext_literal()]
             formula = Formula(
-                operator=Operator.POS,
+                operator=Operator.NONE,
                 inputTerms=[ext_literal]
             )
             formula_list.append(formula)
@@ -110,10 +110,13 @@ class LparseInputLoaderListener(LparseInputListener):
 
     def exitHead(self, ctx):
         if ctx.literal():
-            literal = self.decorations[ctx.literal()]
+            extliteral = ExtLiteral(
+                literal=self.decorations[ctx.literal()],
+                naf=False
+            )
             formula = Formula(
-                operator=Operator.POS,
-                inputTerms=[literal]
+                operator=Operator.NONE,
+                inputTerms=[extliteral]
             )
         elif ctx.choice():
             formula = self.decorations[ctx.choice()]

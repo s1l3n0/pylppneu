@@ -11,11 +11,9 @@ logging.basicConfig(filename='pypneu.log', filemode='w', level=logging.INFO)
 
 class Node:
     # Fields:
-    # id
-    # inputMap
-    # outputMap
-    def __init__(self, id):
-        self.id = id
+    # inputs
+    # outputs
+    def __init__(self):
         self.inputs = []
         self.outputs = []
 
@@ -26,13 +24,11 @@ class ArcType:
 
 class Arc:
     # Fields:
-    # id
     # source
     # target
     # arc type
     # weight
-    def __init__(self, id, source, target, type, weight):
-        self.id = id
+    def __init__(self, source, target, type, weight):
         self.source = source
         self.target = target
         self.type = type
@@ -44,8 +40,8 @@ class Place(Node):
     # Fields:
     # name
     # marking
-    def __init__(self, id, name, marking):
-        Node.__init__(self, id)
+    def __init__(self, name = None, marking = 0):
+        Node.__init__(self)
         self.name = name
         self.marking = marking
 
@@ -62,8 +58,8 @@ class TransitionEvent():
 class Transition(Node):
     # Fields:
     # name
-    def __init__(self, id, name):
-        Node.__init__(self, id)
+    def __init__(self, name = None):
+        Node.__init__(self)
         self.name = name
 
     def IsEnabled(self):
@@ -160,6 +156,7 @@ class PetriNet(PetriNetStructure):
                 break
 
         if firedTransition is not None:
+            print firedTransition.name + " fires"
             events = firedTransition.ProduceOutputTokens()
             ## TODO: for now I implement a FIFO mechanism
             self.transitions.remove(firedTransition)
@@ -171,11 +168,11 @@ class PetriNet(PetriNetStructure):
 # really simple Petri net
 # two places, a transition
 
-p1 = Place("p1", "p1", 3)
-p2 = Place("p2", "p2", 0)
-t1 = Transition("t1", "t1")
-a1 = Arc("a1", p1, t1, ArcType.NORMAL, 1)
-a2 = Arc("a2", t1, p2, ArcType.NORMAL, 1)
+p1 = Place("p1", 3)
+p2 = Place("p2", 0)
+t1 = Transition("t1")
+a1 = Arc(p1, t1, ArcType.NORMAL, 1)
+a2 = Arc(t1, p2, ArcType.NORMAL, 1)
 net = PetriNet([p1, p2], [t1], [a1, a2])
 
 net.RunSimulation(5)

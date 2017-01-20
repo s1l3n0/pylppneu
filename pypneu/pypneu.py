@@ -160,14 +160,14 @@ class PetriNet(PetriNetStructure):
             if t.IsEnabled():
                 t.ConsumeInputTokens()
                 firedTransition = t
+                ## to have a rotation, I simply implement a FIFO mechanism
+                self.transitions.remove(firedTransition)
+                self.transitions.append(firedTransition)
                 break
 
         if firedTransition is not None:
             print firedTransition.name + " fires"
             events = firedTransition.ProduceOutputTokens()
-            ## TODO: for now I implement a FIFO mechanism
-            self.transitions.remove(firedTransition)
-            self.transitions.append(firedTransition)
             return events
         else:
             return []

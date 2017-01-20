@@ -233,6 +233,7 @@ class Program:
     # rule_list
     def __init__(self, rule_list=()):
         self.rule_list = rule_list
+        self.answer_sets = None
 
     def dependency_graph(self):
         return dg.DependencyGraph(self.rule_list)
@@ -242,6 +243,13 @@ class Program:
         for rule in self.rule_list:
             output += rule.to_ASP() + "\n"
         return output
+
+    def __on_model(self, model):
+        self.answer_sets = []
+        answer_set = []
+        for atom in model.symbols(atoms="True"):       ## for clingo 5.1.0
+            answer_set.append(ASPProgramLoader.parse_literal(str(atom)))
+        self.answer_sets.append(answer_set)
 
     def solve(self):
         tmp_file = "../tmp/program.lp"
@@ -253,15 +261,8 @@ class Program:
         ctl = Control()
         ctl.load(tmp_file)
         ctl.ground([("base", [])])
-        answer_sets = []
-        with ctl.solve_iter() as it:
-            for model in it:
-                answer_set = []
-                # for atom in model.atoms(Model.ATOMS):        ## for clingo 4.5.4
-                for atom in model.symbols(atoms="True"):       ## for clingo 5.1.0
-                    answer_set.append(ASPProgramLoader.parse_literal(str(atom)))
-                answer_sets.append(answer_set)
-        return answer_sets
+        ctl.solve(on_model=self.__on_model)
+        return self.answer_sets
 
 if __name__ == '__main__':
     program = ASPProgramLoader.parse_string("b :- not a. -c :- a. a.")

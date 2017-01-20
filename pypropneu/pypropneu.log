@@ -1,0 +1,39 @@
+INFO:root:resolution bindings on places
+INFO:root:assign current marking
+INFO:root:assigning p1 to true
+INFO:root:assigning p2 to false
+INFO:root:assigning p3 to false
+INFO:root:assigning p4 to false
+INFO:root:assigning p5 to false
+INFO:root:solving bindings on places...
+INFO:root:updating p1 to true
+INFO:root:attempting to run step 0
+INFO:root:looking for enabled transitions...
+INFO:root:checking transition t1 if enabled.
+INFO:root:pre-fire t1!!!
+INFO:root:resolution bindings on transitions...
+INFO:root:assign current pre-fire
+INFO:root:assigning t2 to false
+INFO:root:assigning t1 to true
+INFO:root:adding t1 to transition to be fired
+INFO:root:adding t2 to transition to be fired
+INFO:root:consuming token in place p1
+INFO:root:producing token in place p2
+INFO:root:producing token in place p5
+INFO:root:step 0 completed
+INFO:root:resolution bindings on places
+INFO:root:assign current marking
+INFO:root:assigning p1 to false
+INFO:root:assigning p2 to true
+INFO:root:assigning p3 to false
+INFO:root:assigning p4 to false
+INFO:root:assigning p5 to true
+INFO:root:solving bindings on places...
+INFO:root:updating p2 to true
+INFO:root:updating p4 to true
+INFO:root:updating p5 to true
+INFO:root:attempting to run step 1
+INFO:root:looking for enabled transitions...
+INFO:root:checking transition t2 if enabled.
+INFO:root:checking transition t1 if enabled.
+INFO:root:no token is available in place p1: disabled.

@@ -1,0 +1,3 @@
+#external d.
+a :- d.
+

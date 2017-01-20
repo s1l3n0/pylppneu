@@ -30,7 +30,7 @@ class Arc:
     # target
     # arc type
     # weight
-    def __init__(self, source, target, type, weight):
+    def __init__(self, source, target, type=ArcType.NORMAL, weight=1):
         self.source = source
         self.target = target
         self.type = type
@@ -43,7 +43,7 @@ class Place(Node):
     # Fields:
     # name
     # marking
-    def __init__(self, name = None, marking = 0):
+    def __init__(self, name=None, marking=0):
         Node.__init__(self)
         self.name = name
         self.marking = marking
@@ -85,12 +85,6 @@ class Transition(Node):
                     return False
         return True
 
-    def Fire(self):
-        logging.info("transition " + self.name + " fires..")
-        print self.name + " fires"
-        self.ConsumeInputTokens()
-        return self.ProduceOutputTokens()
-
     def ConsumeInputTokens(self):
         for input in self.inputs:
             if input.type == ArcType.NORMAL:
@@ -100,20 +94,18 @@ class Transition(Node):
                 raise ValueError("Unexpected type of input arc")
 
     def ProduceOutputTokens(self):
-        events = []
+        event = TransitionEvent(self)
         for output in self.outputs:
             if output.type == ArcType.NORMAL:
                 logging.info("producing " + str(output.weight) + " tokens in place " + output.target.name)
                 for i in range (0, output.weight):
-                    event = TransitionEvent(self)
                     output.target.marking += 1
-                    events.append(event)
             elif output.type == ArcType.RESET:
                 logging.info("resetting place " + output.target.name)
                 output.target.Flush()
             else:
                 raise ValueError("Unexpected type of input arc")
-        return events
+        return event
 
 
 class PetriNetStructure:
@@ -131,25 +123,56 @@ class PetriNetStructure:
         output = ""
         for place in self.places:
             output = output + place.name + ": " + str(place.marking) + ", "
-        print output[:-2]
+        return output[:-2]
 
 
 class PetriNet(PetriNetStructure):
 
-    def RunSimulation(self, iterations):
+    def __init__(self, places, transitions, arcs):
+        PetriNetStructure.__init__(self, places, transitions, arcs)
+        self.analysis = None
+
+    def status(self):
+        if self.analysis is None:
+            print "Marking: "+ self.PrintMarking()
+        else:
+            print "Summary: " + self.analysis.storyBase.toLog()
+            print "Stories: " + self.analysis.storyBase
+            print "States: " + self.analysis.stateBase
+
+    ####### ANALYSIS
+
+    def RunAnalysis(self, iterations):
         n = 0
         for i in range(iterations):
+            self.PrintMarking()
             logging.info("attempting to run step " + str(i))
-            if not self.RunStep():
+            if not self.RunAnalysisStep():
                 break
             else:
                 n = n + 1
-                self.PrintMarking()
                 logging.info("step " + str(i) + " completed")
 
         print str(n) + " steps completed."
 
-    def RunStep(self):
+
+
+    ####### SIMPLE EXECUTION
+
+    def RunSimulation(self, iterations):
+        n = 0
+        for i in range(iterations):
+            self.PrintMarking()
+            logging.info("attempting to run step " + str(i))
+            if not self.RunExecutionStep():
+                break
+            else:
+                n = n + 1
+                logging.info("step " + str(i) + " completed")
+
+        print str(n) + " steps completed."
+
+    def RunExecutionStep(self):
         firedTransitionEvents = self.BruteForceExecution()
         return len(firedTransitionEvents) > 0
 
@@ -167,19 +190,75 @@ class PetriNet(PetriNetStructure):
 
         if firedTransition is not None:
             print firedTransition.name + " fires"
-            events = firedTransition.ProduceOutputTokens()
-            return events
+            event = firedTransition.ProduceOutputTokens()
+            return [event]
         else:
             return []
+
+
+
+
+
+class Analysis:
+    def __init__(self):
+        self.storyBase = []
+        self.stateBase = []
+        self.currentStory = None
+        self.currentState = None
+
+    def saveState(self, execution):
+
+
+    def saveConsequent(self, antecedent = None, firedEvents = []):
+        state = self.saveState(execution)
+
+        currentStory.addStep(state)
+
+
+class Story:
+    def __init__(self):
+        self.steps = []
+        self.eventsPerStep = []
+
+    def addStep(self, state):
+        self.steps.append(state)
+
+    def addEvents(self, firedTransitionEvents):
+        self.eventsPerStep.append(firedTransitionEvents)
+
+class State:
+    def __init__(self):
+        self.marking = None
+        self.transitionEvent2state = None
+
+    def setEnableFiring(self, enabledFiringList):
+        self.transitionEvent2state = {}
+
+        for t in enabledFiringList:
+            self.transitionEvent2state[t] = None
+
+    def findNextEvent(self):
+        for elem in self.transitionEvent2state
+
 
 # really simple Petri net
 # two places, a transition
 
-p1 = Place("p1", 3)
-p2 = Place("p2", 0)
-t1 = Transition("t1")
-a1 = Arc(p1, t1, ArcType.NORMAL, 1)
-a2 = Arc(t1, p2, ArcType.NORMAL, 1)
-net = PetriNet([p1, p2], [t1], [a1, a2])
+# p1 = Place("p1", 3)
+# p2 = Place("p2", 0)
+# t1 = Transition("t1")
+# a1 = Arc(p1, t1, ArcType.NORMAL, 1)
+# a2 = Arc(t1, p2, ArcType.NORMAL, 1)
+# net = PetriNet([p1, p2], [t1], [a1, a2])
+# net.RunSimulation(5)
 
+# simple Petri net with fork
+# one place, two transition
+
+p1 = Place("p1", 3)
+t1 = Transition("t1")
+t2 = Transition("t2")
+a1 = Arc(p1, t1)
+a2 = Arc(p1, t2)
+net = PetriNet([p1], [t1, t2], [a1, a2])
 net.RunSimulation(5)

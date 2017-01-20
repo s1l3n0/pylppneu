@@ -1,18 +1,17 @@
 INFO:root:attempting to run step 0
 INFO:root:checking transition t1 if enabled.
 INFO:root:consuming 1 tokens in place p1
-INFO:root:producing 1 tokens in place p2
 INFO:root:step 0 completed
 INFO:root:attempting to run step 1
-INFO:root:checking transition t1 if enabled.
+INFO:root:checking transition t2 if enabled.
 INFO:root:consuming 1 tokens in place p1
-INFO:root:producing 1 tokens in place p2
 INFO:root:step 1 completed
 INFO:root:attempting to run step 2
 INFO:root:checking transition t1 if enabled.
 INFO:root:consuming 1 tokens in place p1
-INFO:root:producing 1 tokens in place p2
 INFO:root:step 2 completed
 INFO:root:attempting to run step 3
+INFO:root:checking transition t2 if enabled.
+INFO:root:not sufficient tokens in place p1: disabled.
 INFO:root:checking transition t1 if enabled.
 INFO:root:not sufficient tokens in place p1: disabled.

@@ -281,9 +281,9 @@ class PetriNet(PetriNetStructure):
         t_prog.ground([("base", [])])
 
         n = 0
-        self.PrintMarking()
 
         for i in range(iterations):
+            self.PrintMarking()
 
             self.transitions_to_be_fired = []
 

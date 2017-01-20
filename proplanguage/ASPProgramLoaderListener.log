@@ -1,0 +1,145 @@
+INFO:root:captured pos literal: b
+INFO:root:captured literal: b
+INFO:root:captured head formula: {'operator': 0, 'inputTerms': [b]}
+INFO:root:captured pos literal: a
+INFO:root:captured literal: a
+INFO:root:captured ext literal: not a
+INFO:root:captured (ext literal list) formula list: [<proplanguage.Formula instance at 0x7f55cf7e9b90>]
+INFO:root:captured body formula: {'operator': 1, 'inputFormulas': [{'operator': 0, 'inputTerms': [not a]}]}
+INFO:root:captured normal rule: {'operator': 0, 'inputTerms': [b]}:-{'operator': 1, 'inputFormulas': [{'operator': 0, 'inputTerms': [not a]}]}
+INFO:root:captured asp rule: {'body': {'operator': 1, 'inputFormulas': [{'operator': 0, 'inputTerms': [not a]}]}, 'head': {'operator': 0, 'inputTerms': [b]}}
+INFO:root:captured pos literal: b
+INFO:root:captured literal: b
+INFO:root:captured head formula: {'operator': 0, 'inputTerms': [b]}
+INFO:root:captured pos literal: a
+INFO:root:captured literal: a
+INFO:root:captured ext literal: a
+INFO:root:captured pos literal: b
+INFO:root:captured literal: b
+INFO:root:captured ext literal: b
+INFO:root:captured pos literal: c
+INFO:root:captured literal: c
+INFO:root:captured ext literal: c
+INFO:root:captured pos literal: d
+INFO:root:captured literal: -d
+INFO:root:captured ext literal: -d
+INFO:root:captured pos literal: e
+INFO:root:captured literal: -e
+INFO:root:captured ext literal: -e
+INFO:root:captured pos literal: f
+INFO:root:captured literal: f
+INFO:root:captured ext literal: not f
+INFO:root:captured (ext literal list) formula list: [<proplanguage.Formula instance at 0x7f55cf789368>]
+INFO:root:captured (ext literal list) formula list: [<proplanguage.Formula instance at 0x7f55cf789440>, <proplanguage.Formula instance at 0x7f55cf789368>]
+INFO:root:captured (ext literal list) formula list: [<proplanguage.Formula instance at 0x7f55cf789518>, <proplanguage.Formula instance at 0x7f55cf789440>, <proplanguage.Formula instance at 0x7f55cf789368>]
+INFO:root:captured (ext literal list) formula list: [<proplanguage.Formula instance at 0x7f55cf7895f0>, <proplanguage.Formula instance at 0x7f55cf789518>, <proplanguage.Formula instance at 0x7f55cf789440>, <proplanguage.Formula instance at 0x7f55cf789368>]
+INFO:root:captured (ext literal list) formula list: [<proplanguage.Formula instance at 0x7f55cf7896c8>, <proplanguage.Formula instance at 0x7f55cf7895f0>, <proplanguage.Formula instance at 0x7f55cf789518>, <proplanguage.Formula instance at 0x7f55cf789440>, <proplanguage.Formula instance at 0x7f55cf789368>]
+INFO:root:captured (ext literal list) formula list: [<proplanguage.Formula instance at 0x7f55cf7897a0>, <proplanguage.Formula instance at 0x7f55cf7896c8>, <proplanguage.Formula instance at 0x7f55cf7895f0>, <proplanguage.Formula instance at 0x7f55cf789518>, <proplanguage.Formula instance at 0x7f55cf789440>, <proplanguage.Formula instance at 0x7f55cf789368>]
+INFO:root:captured body formula: {'operator': 1, 'inputFormulas': [{'operator': 0, 'inputTerms': [a]}, {'operator': 0, 'inputTerms': [b]}, {'operator': 0, 'inputTerms': [c]}, {'operator': 0, 'inputTerms': [-d]}, {'operator': 0, 'inputTerms': [-e]}, {'operator': 0, 'inputTerms': [not f]}]}
+INFO:root:captured normal rule: {'operator': 0, 'inputTerms': [b]}:-{'operator': 1, 'inputFormulas': [{'operator': 0, 'inputTerms': [a]}, {'operator': 0, 'inputTerms': [b]}, {'operator': 0, 'inputTerms': [c]}, {'operator': 0, 'inputTerms': [-d]}, {'operator': 0, 'inputTerms': [-e]}, {'operator': 0, 'inputTerms': [not f]}]}
+INFO:root:captured asp rule: {'body': {'operator': 1, 'inputFormulas': [{'operator': 0, 'inputTerms': [a]}, {'operator': 0, 'inputTerms': [b]}, {'operator': 0, 'inputTerms': [c]}, {'operator': 0, 'inputTerms': [-d]}, {'operator': 0, 'inputTerms': [-e]}, {'operator': 0, 'inputTerms': [not f]}]}, 'head': {'operator': 0, 'inputTerms': [b]}}
+INFO:root:captured pos literal: b
+INFO:root:captured literal: b
+INFO:root:captured head formula: {'operator': 0, 'inputTerms': [b]}
+INFO:root:captured pos literal: a
+INFO:root:captured literal: a
+INFO:root:captured ext literal: a
+INFO:root:captured (ext literal list) formula list: [<proplanguage.Formula instance at 0x7f55cf7963b0>]
+INFO:root:captured body formula: {'operator': 1, 'inputFormulas': [{'operator': 0, 'inputTerms': [a]}]}
+INFO:root:captured normal rule: {'operator': 0, 'inputTerms': [b]}:-{'operator': 1, 'inputFormulas': [{'operator': 0, 'inputTerms': [a]}]}
+INFO:root:captured asp rule: {'body': {'operator': 1, 'inputFormulas': [{'operator': 0, 'inputTerms': [a]}]}, 'head': {'operator': 0, 'inputTerms': [b]}}
+INFO:root:captured pos literal: c
+INFO:root:captured literal: c
+INFO:root:captured head formula: {'operator': 0, 'inputTerms': [c]}
+INFO:root:captured pos literal: a
+INFO:root:captured literal: -a
+INFO:root:captured ext literal: -a
+INFO:root:captured (ext literal list) formula list: [<proplanguage.Formula instance at 0x7f55cf7966c8>]
+INFO:root:captured body formula: {'operator': 1, 'inputFormulas': [{'operator': 0, 'inputTerms': [-a]}]}
+INFO:root:captured normal rule: {'operator': 0, 'inputTerms': [c]}:-{'operator': 1, 'inputFormulas': [{'operator': 0, 'inputTerms': [-a]}]}
+INFO:root:captured asp rule: {'body': {'operator': 1, 'inputFormulas': [{'operator': 0, 'inputTerms': [-a]}]}, 'head': {'operator': 0, 'inputTerms': [c]}}
+INFO:root:captured pos literal: d
+INFO:root:captured literal: d
+INFO:root:captured head formula: {'operator': 0, 'inputTerms': [d]}
+INFO:root:captured pos literal: a
+INFO:root:captured literal: a
+INFO:root:captured ext literal: not a
+INFO:root:captured (ext literal list) formula list: [<proplanguage.Formula instance at 0x7f55cf796998>]
+INFO:root:captured body formula: {'operator': 1, 'inputFormulas': [{'operator': 0, 'inputTerms': [not a]}]}
+INFO:root:captured normal rule: {'operator': 0, 'inputTerms': [d]}:-{'operator': 1, 'inputFormulas': [{'operator': 0, 'inputTerms': [not a]}]}
+INFO:root:captured asp rule: {'body': {'operator': 1, 'inputFormulas': [{'operator': 0, 'inputTerms': [not a]}]}, 'head': {'operator': 0, 'inputTerms': [d]}}
+INFO:root:captured pos literal: b
+INFO:root:captured literal: b
+INFO:root:captured head formula: {'operator': 0, 'inputTerms': [b]}
+INFO:root:captured pos literal: a
+INFO:root:captured literal: a
+INFO:root:captured ext literal: a
+INFO:root:captured (ext literal list) formula list: [<proplanguage.Formula instance at 0x7f55cf7891b8>]
+INFO:root:captured body formula: {'operator': 1, 'inputFormulas': [{'operator': 0, 'inputTerms': [a]}]}
+INFO:root:captured normal rule: {'operator': 0, 'inputTerms': [b]}:-{'operator': 1, 'inputFormulas': [{'operator': 0, 'inputTerms': [a]}]}
+INFO:root:captured asp rule: {'body': {'operator': 1, 'inputFormulas': [{'operator': 0, 'inputTerms': [a]}]}, 'head': {'operator': 0, 'inputTerms': [b]}}
+INFO:root:captured pos literal: b
+INFO:root:captured literal: b
+INFO:root:captured head formula: {'operator': 0, 'inputTerms': [b]}
+INFO:root:captured pos literal: a
+INFO:root:captured literal: a
+INFO:root:captured ext literal: not a
+INFO:root:captured (ext literal list) formula list: [<proplanguage.Formula instance at 0x7f55cf789098>]
+INFO:root:captured body formula: {'operator': 1, 'inputFormulas': [{'operator': 0, 'inputTerms': [not a]}]}
+INFO:root:captured normal rule: {'operator': 0, 'inputTerms': [b]}:-{'operator': 1, 'inputFormulas': [{'operator': 0, 'inputTerms': [not a]}]}
+INFO:root:captured asp rule: {'body': {'operator': 1, 'inputFormulas': [{'operator': 0, 'inputTerms': [not a]}]}, 'head': {'operator': 0, 'inputTerms': [b]}}
+INFO:root:captured pos literal: b
+INFO:root:captured literal: b
+INFO:root:captured head formula: {'operator': 0, 'inputTerms': [b]}
+INFO:root:captured pos literal: c
+INFO:root:captured literal: -c
+INFO:root:captured ext literal: -c
+INFO:root:captured (ext literal list) formula list: [<proplanguage.Formula instance at 0x7f55cf77eea8>]
+INFO:root:captured body formula: {'operator': 1, 'inputFormulas': [{'operator': 0, 'inputTerms': [-c]}]}
+INFO:root:captured normal rule: {'operator': 0, 'inputTerms': [b]}:-{'operator': 1, 'inputFormulas': [{'operator': 0, 'inputTerms': [-c]}]}
+INFO:root:captured asp rule: {'body': {'operator': 1, 'inputFormulas': [{'operator': 0, 'inputTerms': [-c]}]}, 'head': {'operator': 0, 'inputTerms': [b]}}
+INFO:root:captured pos literal: b
+INFO:root:captured literal: b
+INFO:root:captured head formula: {'operator': 0, 'inputTerms': [b]}
+INFO:root:captured pos literal: a
+INFO:root:captured literal: a
+INFO:root:captured ext literal: a
+INFO:root:captured (ext literal list) formula list: [<proplanguage.Formula instance at 0x7f55cf7962d8>]
+INFO:root:captured body formula: {'operator': 1, 'inputFormulas': [{'operator': 0, 'inputTerms': [a]}]}
+INFO:root:captured normal rule: {'operator': 0, 'inputTerms': [b]}:-{'operator': 1, 'inputFormulas': [{'operator': 0, 'inputTerms': [a]}]}
+INFO:root:captured asp rule: {'body': {'operator': 1, 'inputFormulas': [{'operator': 0, 'inputTerms': [a]}]}, 'head': {'operator': 0, 'inputTerms': [b]}}
+INFO:root:captured pos literal: b
+INFO:root:captured literal: b
+INFO:root:captured head formula: {'operator': 0, 'inputTerms': [b]}
+INFO:root:captured pos literal: d
+INFO:root:captured literal: d
+INFO:root:captured ext literal: d
+INFO:root:captured (ext literal list) formula list: [<proplanguage.Formula instance at 0x7f55cf796a70>]
+INFO:root:captured body formula: {'operator': 1, 'inputFormulas': [{'operator': 0, 'inputTerms': [d]}]}
+INFO:root:captured normal rule: {'operator': 0, 'inputTerms': [b]}:-{'operator': 1, 'inputFormulas': [{'operator': 0, 'inputTerms': [d]}]}
+INFO:root:captured asp rule: {'body': {'operator': 1, 'inputFormulas': [{'operator': 0, 'inputTerms': [d]}]}, 'head': {'operator': 0, 'inputTerms': [b]}}
+INFO:root:captured pos literal: e
+INFO:root:captured literal: e
+INFO:root:captured head formula: {'operator': 0, 'inputTerms': [e]}
+INFO:root:captured asp fact: {'body': None, 'head': {'operator': 0, 'inputTerms': [e]}}
+INFO:root:captured pos literal: b
+INFO:root:captured literal: b
+INFO:root:captured head formula: {'operator': 0, 'inputTerms': [b]}
+INFO:root:captured pos literal: a
+INFO:root:captured literal: a
+INFO:root:captured ext literal: a
+INFO:root:captured (ext literal list) formula list: [<proplanguage.Formula instance at 0x7f55cf7a2128>]
+INFO:root:captured body formula: {'operator': 1, 'inputFormulas': [{'operator': 0, 'inputTerms': [a]}]}
+INFO:root:captured normal rule: {'operator': 0, 'inputTerms': [b]}:-{'operator': 1, 'inputFormulas': [{'operator': 0, 'inputTerms': [a]}]}
+INFO:root:captured asp rule: {'body': {'operator': 1, 'inputFormulas': [{'operator': 0, 'inputTerms': [a]}]}, 'head': {'operator': 0, 'inputTerms': [b]}}
+INFO:root:captured pos literal: d
+INFO:root:captured literal: d
+INFO:root:captured ext literal: d
+INFO:root:captured (ext literal list) formula list: [<proplanguage.Formula instance at 0x7f55cf7a2368>]
+INFO:root:captured body formula: {'operator': 1, 'inputFormulas': [{'operator': 0, 'inputTerms': [d]}]}
+INFO:root:captured constraint: :- {'body': {'operator': 1, 'inputFormulas': [{'operator': 0, 'inputTerms': [d]}]}, 'head': None}
+INFO:root:captured asp rule: {'body': {'operator': 1, 'inputFormulas': [{'operator': 0, 'inputTerms': [d]}]}, 'head': None}
+INFO:root:captured pos literal: e
+INFO:root:captured literal: e
+INFO:root:captured head formula: {'operator': 0, 'inputTerms': [e]}
+INFO:root:captured asp fact: {'body': None, 'head': {'operator': 0, 'inputTerms': [e]}}

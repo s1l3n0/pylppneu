@@ -1,5 +1,6 @@
 import dependencygraph as dg
-from gringo import Control, Model, Fun
+# from gringo import Control, Model, Fun     ## for clingo 4.5.4
+from clingo import Control                   ## for clingo 5.1.0
 
 import ASPProgramLoader
 
@@ -256,7 +257,8 @@ class Program:
         with ctl.solve_iter() as it:
             for model in it:
                 answer_set = []
-                for atom in model.atoms(Model.ATOMS):
+                # for atom in model.atoms(Model.ATOMS):        ## for clingo 4.5.4
+                for atom in model.symbols(atoms="True"):       ## for clingo 5.1.0
                     answer_set.append(ASPProgramLoader.parse_literal(str(atom)))
                 answer_sets.append(answer_set)
         return answer_sets

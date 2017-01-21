@@ -6,7 +6,6 @@
 
 import logging
 from collections import deque
-import copy
 
 logging.basicConfig(filename='pypneu.log', filemode='w', level=logging.INFO)
 
@@ -215,7 +214,7 @@ class PetriNetAnalysis(PetriNetExecution):
         for i in range(iterations):
             self.status()
             logging.info("attempting to run analysis step " + str(i))
-            if not self.run_analysis_step():
+            if self.run_analysis_step() is False:
                 break
             else:
                 n = n + 1
@@ -233,7 +232,8 @@ class PetriNetAnalysis(PetriNetExecution):
             if state.marking == marking:
                 return state
 
-        new_state = State(marking=marking)
+        new_state = State(marking=marking, sid="s"+str(len(self.state_base)))
+        logging.info("creating state "+str(new_state))
 
         fireable_groups = []
         if new_state.events_to_state is None:
@@ -247,6 +247,7 @@ class PetriNetAnalysis(PetriNetExecution):
 
             for group in fireable_groups:
                 new_state.events_to_state[group] = None
+                logging.info("attaching group of events to "+str(new_state))
 
         self.state_base.append(new_state)
 
@@ -259,7 +260,7 @@ class PetriNetAnalysis(PetriNetExecution):
         if len(fired_events) > 0:
             if fired_events in antecedent.events_to_state:
                 antecedent.events_to_state[fired_events] = state
-                self.current_path.events_per_step.append(fired_events)
+                self.current_path.events_per_steps.append(fired_events)
             else:
                 raise ValueError("I expected to have these events already saved in the antecedent.")
         return state
@@ -285,25 +286,18 @@ class PetriNetAnalysis(PetriNetExecution):
 
         # if it is complete, backtrack to uncovered events [depth-first search]
         if next_events is None:
-            print "Backtracking!!!"
 
             # record this completed path
             self.path_base.append(self.current_path)
 
-            # start a new one cloning the previous one
-            new_path = copy.copy(self.current_path)
-
-            # go backwards until you don't find some next event
-            for i in range(len(self.current_path.steps) - 1, 1, -1):
+            # go backwards until you don't find some next event to be covered
+            for i in range(len(self.current_path.steps) - 2, -1, -1):
                 step = self.current_path.steps[i]
-                new_path.steps.pop()
-                new_path.events_per_step.pop()
-
                 next_events = step.find_next_events()
 
                 if next_events is not None:
                     self.current_state = step
-                    self.current_path = new_path
+                    self.current_path = self.current_path.clone(i)
                     self.load_state(step)
                     break
 
@@ -319,16 +313,26 @@ class Path:
 
     def __init__(self):
         self.steps = []
-        self.events_per_step = []
+        self.events_per_steps = []
 
     def __str__(self):
         output = ""
         for i in range(0, len(self.steps)):
-            output += "(" + str(self.steps[i]) + ")"
+            output += "(" + self.steps[i].sid + ")"
             if i < len(self.steps) - 1:
-                output += " -- " + str(self.events_per_step[i]) + " -- "
+                output += " -- " + str(self.events_per_steps[i]) + " -- "
         return output
 
+    # shallow copy up to step n
+    def clone(self, n=None):
+        new_path = Path()
+        assert len(self.steps) == len(self.events_per_steps) + 1
+        if n is None: n = len(self.steps)
+        for i, step in enumerate(self.steps):
+            if i <= n: new_path.steps.append(step)
+        for i, events_per_step in enumerate(self.events_per_steps):
+            if i <= n-1: new_path.events_per_steps.append(events_per_step)
+        return new_path
 
 class Group:
 
@@ -358,22 +362,22 @@ class Group:
 
 class State:
 
-    def __init__(self, marking=None):
+    def __init__(self, marking=None, sid=None):
         self.marking = marking
+        self.sid = sid
         self.events_to_state = None
 
     def __str__(self):
-        output = ""
+        output = self.sid + " # "
         for nid in self.marking:
-            output = output + nid + ": " + str(self.marking[nid]) + ", "
+            output += nid + ": " + str(self.marking[nid]) + ", "
+        output = output[:-2] + "; "
+        if self.events_to_state is not None:
+            for group in self.events_to_state:
+                output += str(group) + " -> " + (self.events_to_state[group].sid if self.events_to_state[group] is not None else "None") + ", "
         return output[:-2]
 
     def find_next_events(self):
-        print "["
-        for group in self.events_to_state:
-            print str(group) + ": " + str(self.events_to_state[group])
-        print "]"
-
         next_events = None
         for key in self.events_to_state:
             if self.events_to_state[key] is None:
@@ -405,5 +409,5 @@ net = PetriNetAnalysis([p1], [t1, t2], [a1, a2])
 
 # net.run_simulation(5)
 
-net.run_analysis(5)
+net.run_analysis(10)
 

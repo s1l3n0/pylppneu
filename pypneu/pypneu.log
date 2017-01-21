@@ -1,17 +1,27 @@
 INFO:root:attempting to run analysis step 0
+INFO:root:creating state s0 # p1: 3
 INFO:root:checking transition t1 if enabled.
 INFO:root:checking transition t2 if enabled.
+INFO:root:attaching group of events to s0 # p1: 3; t1 -> None
+INFO:root:attaching group of events to s0 # p1: 3; t2 -> None, t1 -> None
 INFO:root:consuming 1 tokens in place p1
+INFO:root:creating state s1 # p1: 2
 INFO:root:checking transition t1 if enabled.
 INFO:root:checking transition t2 if enabled.
+INFO:root:attaching group of events to s1 # p1: 2; t1 -> None
+INFO:root:attaching group of events to s1 # p1: 2; t2 -> None, t1 -> None
 INFO:root:step 0 completed
 INFO:root:attempting to run analysis step 1
 INFO:root:consuming 1 tokens in place p1
+INFO:root:creating state s2 # p1: 1
 INFO:root:checking transition t1 if enabled.
 INFO:root:checking transition t2 if enabled.
+INFO:root:attaching group of events to s2 # p1: 1; t1 -> None
+INFO:root:attaching group of events to s2 # p1: 1; t2 -> None, t1 -> None
 INFO:root:step 1 completed
 INFO:root:attempting to run analysis step 2
 INFO:root:consuming 1 tokens in place p1
+INFO:root:creating state s3 # p1: 0
 INFO:root:checking transition t1 if enabled.
 INFO:root:not sufficient tokens in place p1: disabled.
 INFO:root:checking transition t2 if enabled.
@@ -21,3 +31,9 @@ INFO:root:attempting to run analysis step 3
 INFO:root:consuming 1 tokens in place p1
 INFO:root:step 3 completed
 INFO:root:attempting to run analysis step 4
+INFO:root:consuming 1 tokens in place p1
+INFO:root:step 4 completed
+INFO:root:attempting to run analysis step 5
+INFO:root:consuming 1 tokens in place p1
+INFO:root:step 5 completed
+INFO:root:attempting to run analysis step 6

@@ -383,6 +383,7 @@ class PetriNetAnalysis(PetriNetExecution):
         self.last_events = None
         self.markings = None
         self.fireable_groups = None
+        self.restarted = None
 
     def status(self):
         # print "Summary: " + self.pathBase.toLog()
@@ -455,7 +456,7 @@ class PetriNetAnalysis(PetriNetExecution):
         timing = end - start
         print str(len(self.path_base)) + " paths found (" + str(n) + " iterations) in " + str(timing) + " ms."
 
-        self.status()
+        # self.status()
         return len(self.path_base), timing, n
 
     # save the current marking, if it was not already saved before
@@ -517,6 +518,8 @@ class PetriNetAnalysis(PetriNetExecution):
         print "base state: "+str(self.base_state)
         print "current state: "+str(self.current_state)
         print "state base: " + ', '.join(map(str, self.state_base))
+        print "------------------------------------"
+        print "restarted: " + str(self.restarted)
         print "####################################"
 
     def run_analysis_step(self):
@@ -537,17 +540,21 @@ class PetriNetAnalysis(PetriNetExecution):
 
         # self.trace_status("3. after solving place bindings...")
 
-        ## consolidate the last computed state/path amongst all answer sets
-        self.base_state = self.current_state
-        self.base_path = self.current_path
-
-        # self.trace_status("4. after settled bases...")
-
         next_events = None
+
+        if self.restarted is False:
+            self.path_base.remove(self.base_path)
 
         # the execution is complete if in the execution path we find the same state before the last one
         # if it is not complete, check for new events to fire
         if not (self.current_path.steps.index(self.current_state) + 1 < len(self.current_path.steps)):
+            self.restarted = False
+
+            ## consolidate the last computed state/path amongst all answer sets
+            self.base_state = self.current_state
+            self.base_path = self.current_path
+            # self.trace_status("4. after settled bases...")
+
             next_events = self.current_state.find_next_events()
         # else:
             # logging.info("execution completed: found two times the same state in the same path.")
@@ -555,6 +562,7 @@ class PetriNetAnalysis(PetriNetExecution):
         # if it is complete, backtrack to uncovered events [depth-first search]
         if next_events is None:
             # logging.info("backtracking...")
+            self.restarted = False
 
             # record this completed path
             # # logging.info("record the completed path...")
@@ -570,9 +578,11 @@ class PetriNetAnalysis(PetriNetExecution):
 
                 if next_events is not None:
                     # logging.info("found path still to be covered.")
+                    self.restarted = True
                     self.current_state = step
                     self.current_path = self.current_path.clone(i)
                     self.load_state(step)
+                    print "removing "+str(self.base_path)
                     self.path_base.remove(self.base_path)
                     self.base_path = self.current_path
                     self.base_state = self.current_state
@@ -580,6 +590,10 @@ class PetriNetAnalysis(PetriNetExecution):
                     break
 
         if next_events is None:
+
+            if self.restarted is True:
+                self.path_base.remove(self.base_path)
+
             # self.trace_status("6. after unsuccesful backtracking...")
 
             # logging.info("no new path to be covered.")

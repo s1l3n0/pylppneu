@@ -48,7 +48,7 @@ def buildSerialPetriNet(n=2):
     t_bindings = []
 
     p1 = Place(marking=True)
-    for i in range(1, 2):
+    for i in range(1, n):
         p2 = Place()
         places.extend([p1, p2])
         (t1, (a1, a2)) = buildSerial(p1, p2)
@@ -59,14 +59,11 @@ def buildSerialPetriNet(n=2):
     return places, transitions, arcs, p_bindings, t_bindings
 
 
-(places, transitions, arcs, p_bindings, t_bindings) = buildSerialPetriNet()
+for n in range(25, 27):
+    (places, transitions, arcs, p_bindings, t_bindings) = buildSerialPetriNet(n)
+    net = PetriNetAnalysis(places, transitions, arcs)
+    net.run_analysis()
 
-net = PetriNetAnalysis(places, transitions, arcs)
-net.run_analysis()
-
-print net.base_path
-
-(places, transitions, arcs, p_bindings, t_bindings) = buildSerialPetriNet()
-
-netEC = PetriNetEventCalculus(places, transitions, arcs)
-netEC.solve(1)
+    (places, transitions, arcs, p_bindings, t_bindings) = buildSerialPetriNet(n)
+    netEC = PetriNetEventCalculus(places, transitions, arcs)
+    netEC.solve(n-1)

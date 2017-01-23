@@ -17,11 +17,18 @@ class PyProPneuTestCase(unittest.TestCase):
     def test_analysis_1(self):
         p1 = Place("p1", True)
         p2 = Place("p2")
+        p3 = Place("p3")
+
         t1 = Transition("t1")
+        t2 = Transition("t2")
         a1 = Arc(p1, t1)
         a2 = Arc(t1, p2)
-        net = PetriNetAnalysis(places=[p1, p2], transitions=[t1], arcs=[a1, a2])
-        assert net.run_analysis()[2] == 1
+        a3 = Arc(p2, t2)
+        a4 = Arc(t2, p3)
+
+        net = PetriNetAnalysis(places=[p1, p2, p3], transitions=[t1, t2], arcs=[a1, a2, a3, a4])
+        assert net.run_analysis()[2] == 2
+        assert len(net.path_base) == 1
 
     # simple Petri net with fork
     # one place, two transition

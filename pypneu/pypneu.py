@@ -11,9 +11,9 @@ logging.basicConfig(filename='pypneu.log', filemode='w', level=logging.INFO)
 
 
 class Node:
-    # Fields:
-    # inputs
-    # outputs
+    # Fields
+    # inputs : Arc list
+    # outputs : Arc list
     def __init__(self):
         self.inputs = []
         self.outputs = []
@@ -21,6 +21,7 @@ class Node:
 
     def __str__(self):
         return self.nid
+
 
 class ArcType:
     NORMAL = 1
@@ -126,7 +127,7 @@ class PetriNetStructure:
             node.nid = nid
         return dict
 
-    def __init__(self, places, transitions, arcs):
+    def __init__(self, places=(), transitions=(), arcs=()):
         self.places = places
         self.transitions = transitions
         self.arcs = arcs
@@ -142,7 +143,7 @@ class PetriNetStructure:
 
 class PetriNetExecution(PetriNetStructure):
 
-    def __init__(self, places, transitions, arcs):
+    def __init__(self, places=(), transitions=(), arcs=()):
         PetriNetStructure.__init__(self, places, transitions, arcs)
 
     def run_simulation(self, iterations):
@@ -157,6 +158,7 @@ class PetriNetExecution(PetriNetStructure):
                 logging.info("step " + str(i) + " completed")
 
         print str(n) + " steps completed."
+        return n
 
     def run_execution_step(self):
         firedTransitionEvents = self.brute_force_execution()
@@ -189,7 +191,7 @@ class PetriNetExecution(PetriNetStructure):
 
 class PetriNetAnalysis(PetriNetExecution):
 
-    def __init__(self, places, transitions, arcs):
+    def __init__(self, places=(), transitions=(), arcs=()):
         PetriNetExecution.__init__(self, places, transitions, arcs)
         self.path_base = deque()
         self.state_base = deque()
@@ -212,7 +214,7 @@ class PetriNetAnalysis(PetriNetExecution):
     def run_analysis(self, iterations):
         n = 0
         for i in range(iterations):
-            self.status()
+            # self.status()
             logging.info("attempting to run analysis step " + str(i))
             if self.run_analysis_step() is False:
                 break
@@ -222,6 +224,7 @@ class PetriNetAnalysis(PetriNetExecution):
 
         print str(n) + " steps completed."
         self.status()
+        return n
 
     # save the current marking, if it was not already saved before
     def save_state(self):
@@ -238,7 +241,7 @@ class PetriNetAnalysis(PetriNetExecution):
         fireable_groups = []
         if new_state.events_to_state is None:
             for transition in self.transitions:
-                fireable_groups_per_transition = transition.fireable_events()
+                fireable_groups_per_transition = transition.pre_fireable_events()
                 if fireable_groups_per_transition is not None:
                     for group in fireable_groups_per_transition:
                         if group not in fireable_groups:
@@ -334,6 +337,7 @@ class Path:
             if i <= n-1: new_path.events_per_steps.append(events_per_step)
         return new_path
 
+
 class Group:
 
     def __init__(self, set=()):
@@ -386,28 +390,4 @@ class State:
         return next_events
 
 
-# really simple Petri net
-# two places, a transition
-
-# p1 = Place("p1", 3)
-# p2 = Place("p2", 0)
-# t1 = Transition("t1")
-# a1 = Arc(p1, t1, ArcType.NORMAL, 1)
-# a2 = Arc(t1, p2, ArcType.NORMAL, 1)
-# net = PetriNet([p1, p2], [t1], [a1, a2])
-# net.RunSimulation(5)
-
-# simple Petri net with fork
-# one place, two transition
-
-p1 = Place("p1", 3)
-t1 = Transition("t1")
-t2 = Transition("t2")
-a1 = Arc(p1, t1)
-a2 = Arc(p1, t2)
-net = PetriNetAnalysis([p1], [t1, t2], [a1, a2])
-
-# net.run_simulation(5)
-
-net.run_analysis(10)
 

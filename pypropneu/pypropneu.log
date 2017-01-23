@@ -1,0 +1,273 @@
+INFO:root:attempting to run analysis step 0
+INFO:root:resolution bindings on places
+INFO:root:assign current marking
+INFO:root:assigning p1 to True
+INFO:root:assigning p2 to False
+INFO:root:solving bindings on places...
+INFO:root:creating state s0 # p2: False, p1: True
+INFO:root:checking transition t1 if enabled.
+INFO:root:resolution bindings on transitions...
+INFO:root:assign current pre-fire
+INFO:root:assigning t1 to true
+INFO:root:adding t1 to transition to be fired
+INFO:root:received new transition model: [<pypropneu.Transition instance at 0x7f3cad827ab8>]
+INFO:root:attaching group of events to s0 # p2: False, p1: True; t1 -> None
+INFO:root:anchoring state s0 to current path
+INFO:root:received new place model: s0 # p2: False, p1: True; t1 -> None
+INFO:root:record the starting path...
+INFO:root:completed solving.
+INFO:root:execution completed: found two times the same state in the same path.
+INFO:root:consuming token in place p1
+INFO:root:producing token in place p2
+INFO:root:step 0 completed
+INFO:root:attempting to run analysis step 1
+INFO:root:resolution bindings on places
+INFO:root:assign current marking
+INFO:root:assigning p1 to False
+INFO:root:assigning p2 to True
+INFO:root:solving bindings on places...
+INFO:root:creating state s1 # p2: True, p1: False
+INFO:root:checking transition t1 if enabled.
+INFO:root:no token is available in place p1: disabled.
+INFO:root:anchoring state s1 to current path
+INFO:root:saving connection s0 -->|t1|-->s1
+INFO:root:received new place model: s1 # p2: True, p1: False
+INFO:root:record the starting path...
+INFO:root:completed solving.
+INFO:root:execution completed: found two times the same state in the same path.
+INFO:root:backtracking...
+INFO:root:checking at step 0...
+INFO:root:no new path to be covered.
+INFO:root:attempting to run analysis step 0
+INFO:root:resolution bindings on places
+INFO:root:assign current marking
+INFO:root:assigning p1 to True
+INFO:root:solving bindings on places...
+INFO:root:creating state s0 # p1: True
+INFO:root:checking transition t1 if enabled.
+INFO:root:resolution bindings on transitions...
+INFO:root:assign current pre-fire
+INFO:root:assigning t1 to true
+INFO:root:assigning t2 to false
+INFO:root:adding t1 to transition to be fired
+INFO:root:received new transition model: [<pypropneu.Transition instance at 0x7f3cad827e18>]
+INFO:root:checking transition t2 if enabled.
+INFO:root:resolution bindings on transitions...
+INFO:root:assign current pre-fire
+INFO:root:assigning t1 to false
+INFO:root:assigning t2 to true
+INFO:root:adding t2 to transition to be fired
+INFO:root:received new transition model: [<pypropneu.Transition instance at 0x7f3cad827cf8>]
+INFO:root:attaching group of events to s0 # p1: True; t1 -> None
+INFO:root:attaching group of events to s0 # p1: True; t2 -> None, t1 -> None
+INFO:root:anchoring state s0 to current path
+INFO:root:received new place model: s0 # p1: True; t2 -> None, t1 -> None
+INFO:root:record the starting path...
+INFO:root:completed solving.
+INFO:root:execution completed: found two times the same state in the same path.
+INFO:root:consuming token in place p1
+INFO:root:step 0 completed
+INFO:root:attempting to run analysis step 1
+INFO:root:resolution bindings on places
+INFO:root:assign current marking
+INFO:root:assigning p1 to False
+INFO:root:solving bindings on places...
+INFO:root:creating state s1 # p1: False
+INFO:root:checking transition t1 if enabled.
+INFO:root:no token is available in place p1: disabled.
+INFO:root:checking transition t2 if enabled.
+INFO:root:no token is available in place p1: disabled.
+INFO:root:anchoring state s1 to current path
+INFO:root:saving connection s0 -->|t2|-->s1
+INFO:root:received new place model: s1 # p1: False
+INFO:root:record the starting path...
+INFO:root:completed solving.
+INFO:root:execution completed: found two times the same state in the same path.
+INFO:root:backtracking...
+INFO:root:checking at step 0...
+INFO:root:found path still to be covered.
+INFO:root:recovering state s0 # p1: True; t2 -> s1, t1 -> None
+INFO:root:consuming token in place p1
+INFO:root:step 1 completed
+INFO:root:attempting to run analysis step 2
+INFO:root:resolution bindings on places
+INFO:root:assign current marking
+INFO:root:assigning p1 to False
+INFO:root:solving bindings on places...
+INFO:root:anchoring state s1 to current path
+INFO:root:saving connection s0 -->|t1|-->s1
+INFO:root:received new place model: s1 # p1: False
+INFO:root:record the starting path...
+INFO:root:completed solving.
+INFO:root:execution completed: found two times the same state in the same path.
+INFO:root:backtracking...
+INFO:root:checking at step 0...
+INFO:root:no new path to be covered.
+INFO:root:attempting to run analysis step 0
+INFO:root:resolution bindings on places
+INFO:root:assign current marking
+INFO:root:assigning p1 to True
+INFO:root:assigning p2 to False
+INFO:root:assigning p3 to False
+INFO:root:assigning p4 to False
+INFO:root:assigning p5 to False
+INFO:root:solving bindings on places...
+INFO:root:creating state s0 # p2: False, p3: False, p1: True, p4: False, p5: False
+INFO:root:checking transition t1 if enabled.
+INFO:root:resolution bindings on transitions...
+INFO:root:assign current pre-fire
+INFO:root:assigning t1 to true
+INFO:root:assigning t2 to false
+INFO:root:adding t1 to transition to be fired
+INFO:root:adding t2 to transition to be fired
+INFO:root:received new transition model: [<pypropneu.Transition instance at 0x7f3cad8c10e0>, <pypropneu.Transition instance at 0x7f3cad8c1098>]
+INFO:root:checking transition t2 if enabled.
+INFO:root:attaching group of events to s0 # p2: False, p3: False, p1: True, p4: False, p5: False; t1, t2 -> None
+INFO:root:anchoring state s0 to current path
+INFO:root:received new place model: s0 # p2: False, p3: False, p1: True, p4: False, p5: False; t1, t2 -> None
+INFO:root:record the starting path...
+INFO:root:completed solving.
+INFO:root:execution completed: found two times the same state in the same path.
+INFO:root:consuming token in place p1
+INFO:root:producing token in place p2
+INFO:root:producing token in place p5
+INFO:root:step 0 completed
+INFO:root:attempting to run analysis step 1
+INFO:root:resolution bindings on places
+INFO:root:assign current marking
+INFO:root:assigning p1 to False
+INFO:root:assigning p2 to True
+INFO:root:assigning p3 to False
+INFO:root:assigning p4 to False
+INFO:root:assigning p5 to True
+INFO:root:solving bindings on places...
+INFO:root:creating state s1 # p2: True, p3: False, p1: False, p4: True, p5: True
+INFO:root:checking transition t1 if enabled.
+INFO:root:no token is available in place p1: disabled.
+INFO:root:checking transition t2 if enabled.
+INFO:root:anchoring state s1 to current path
+INFO:root:saving connection s0 -->|t1, t2|-->s1
+INFO:root:received new place model: s1 # p2: True, p3: False, p1: False, p4: True, p5: True
+INFO:root:record the starting path...
+INFO:root:completed solving.
+INFO:root:execution completed: found two times the same state in the same path.
+INFO:root:backtracking...
+INFO:root:checking at step 0...
+INFO:root:no new path to be covered.
+INFO:root:attempting to run analysis step 0
+INFO:root:resolution bindings on places
+INFO:root:assign current marking
+INFO:root:assigning a to None
+INFO:root:assigning b to None
+INFO:root:assigning c to True
+INFO:root:solving bindings on places...
+INFO:root:creating state s0 # a: None, c: True, b: None
+INFO:root:anchoring state s0 to current path
+INFO:root:received new place model: s0 # a: None, c: True, b: None
+INFO:root:record the starting path...
+INFO:root:creating state s1 # a: True, c: True, b: None
+INFO:root:anchoring state s1 to current path
+INFO:root:received new place model: s1 # a: True, c: True, b: None
+INFO:root:record the starting path...
+INFO:root:creating state s2 # a: True, c: True, b: True
+INFO:root:anchoring state s2 to current path
+INFO:root:received new place model: s2 # a: True, c: True, b: True
+INFO:root:record the starting path...
+INFO:root:anchoring state s2 to current path
+INFO:root:received new place model: s2 # a: True, c: True, b: True
+INFO:root:completed solving.
+INFO:root:execution completed: found two times the same state in the same path.
+INFO:root:backtracking...
+INFO:root:no new path to be covered.
+INFO:root:attempting to run step 0
+INFO:root:resolution bindings on places
+INFO:root:assign current marking
+INFO:root:assigning p1 to True
+INFO:root:assigning p2 to False
+INFO:root:solving bindings on places...
+INFO:root:updating p1 to true
+INFO:root:looking for enabled transitions...
+INFO:root:checking transition t1 if enabled.
+INFO:root:pre-fire t1!!!
+INFO:root:resolution bindings on transitions...
+INFO:root:assign current pre-fire
+INFO:root:assigning t1 to true
+INFO:root:adding t1 to transition to be fired
+INFO:root:consuming token in place p1
+INFO:root:producing token in place p2
+INFO:root:step 0 completed
+INFO:root:attempting to run step 1
+INFO:root:resolution bindings on places
+INFO:root:assign current marking
+INFO:root:assigning p1 to False
+INFO:root:assigning p2 to True
+INFO:root:solving bindings on places...
+INFO:root:updating p2 to true
+INFO:root:looking for enabled transitions...
+INFO:root:checking transition t1 if enabled.
+INFO:root:no token is available in place p1: disabled.
+INFO:root:attempting to run step 0
+INFO:root:resolution bindings on places
+INFO:root:assign current marking
+INFO:root:assigning p1 to True
+INFO:root:solving bindings on places...
+INFO:root:updating p1 to true
+INFO:root:looking for enabled transitions...
+INFO:root:checking transition t1 if enabled.
+INFO:root:pre-fire t1!!!
+INFO:root:resolution bindings on transitions...
+INFO:root:assign current pre-fire
+INFO:root:assigning t2 to false
+INFO:root:assigning t1 to true
+INFO:root:adding t1 to transition to be fired
+INFO:root:consuming token in place p1
+INFO:root:step 0 completed
+INFO:root:attempting to run step 1
+INFO:root:resolution bindings on places
+INFO:root:assign current marking
+INFO:root:assigning p1 to False
+INFO:root:solving bindings on places...
+INFO:root:looking for enabled transitions...
+INFO:root:checking transition t2 if enabled.
+INFO:root:no token is available in place p1: disabled.
+INFO:root:checking transition t1 if enabled.
+INFO:root:no token is available in place p1: disabled.
+INFO:root:attempting to run step 0
+INFO:root:resolution bindings on places
+INFO:root:assign current marking
+INFO:root:assigning p1 to True
+INFO:root:assigning p2 to False
+INFO:root:assigning p3 to False
+INFO:root:assigning p4 to False
+INFO:root:assigning p5 to False
+INFO:root:solving bindings on places...
+INFO:root:updating p1 to true
+INFO:root:looking for enabled transitions...
+INFO:root:checking transition t1 if enabled.
+INFO:root:pre-fire t1!!!
+INFO:root:resolution bindings on transitions...
+INFO:root:assign current pre-fire
+INFO:root:assigning t2 to false
+INFO:root:assigning t1 to true
+INFO:root:adding t1 to transition to be fired
+INFO:root:adding t2 to transition to be fired
+INFO:root:consuming token in place p1
+INFO:root:producing token in place p2
+INFO:root:producing token in place p5
+INFO:root:step 0 completed
+INFO:root:attempting to run step 1
+INFO:root:resolution bindings on places
+INFO:root:assign current marking
+INFO:root:assigning p1 to False
+INFO:root:assigning p2 to True
+INFO:root:assigning p3 to False
+INFO:root:assigning p4 to False
+INFO:root:assigning p5 to True
+INFO:root:solving bindings on places...
+INFO:root:updating p2 to true
+INFO:root:updating p4 to true
+INFO:root:updating p5 to true
+INFO:root:looking for enabled transitions...
+INFO:root:checking transition t2 if enabled.
+INFO:root:checking transition t1 if enabled.
+INFO:root:no token is available in place p1: disabled.

@@ -21,7 +21,7 @@ class PyProPneuTestCase(unittest.TestCase):
         a1 = Arc(p1, t1)
         a2 = Arc(t1, p2)
         net = PetriNetAnalysis(places=[p1, p2], transitions=[t1], arcs=[a1, a2])
-        assert net.run_analysis(5) == 1
+        assert net.run_analysis()[2] == 1
 
     # simple Petri net with fork
     # one place, two transition
@@ -42,7 +42,7 @@ class PyProPneuTestCase(unittest.TestCase):
         a2 = Arc(p1, t2)
         net = PetriNetAnalysis([p1], [t1, t2], [a1, a2])
 
-        assert net.run_analysis(10) == 2
+        assert net.run_analysis()[2] == 2
         assert len(net.state_base) == 2
         assert len(net.path_base) == 2
 
@@ -134,7 +134,7 @@ class PyProPneuTestCase(unittest.TestCase):
         assert p4.marking is False
         assert p5.marking is False
 
-        assert net.run_analysis(5) == 1
+        assert net.run_analysis()[2] == 1
 
         assert p1.marking is False
         assert p2.marking is True
@@ -164,7 +164,7 @@ class PyProPneuTestCase(unittest.TestCase):
         assert p2.marking is None
         assert p3.marking is True
 
-        assert net.run_analysis(5) == 0
+        assert net.run_analysis()[2] == 0
         assert len(net.path_base) == 3
         assert len(net.state_base) == 3
 

@@ -1,4 +1,7 @@
+import logging
 from pypropneu import PetriNetStructure, Place, Transition, ArcType, BindingOperator
+from clingo import Control, parse_program
+from timeit import default_timer as timer
 
 class PetriNetEventCalculus(PetriNetStructure):
 
@@ -7,30 +10,38 @@ class PetriNetEventCalculus(PetriNetStructure):
 
     @staticmethod
     def build_event_calculus_axioms():
-        return """#domain fluent(F), event(E), time(N), time(N1), time(N2), time(N3).
-#domain place(P), trans(T), trans(T1), trans(T2).
-
-holdsAt(F, P, N) :-
+        return """holdsAt(F, P, N) :-
   initially(F, P),
-  not clipped(0, F, P, N).
+  not clipped(0, F, P, N),
+  fluent(F), place(P), time(N).
+
 holdsAt(F, P, N2) :-
-  firesAt(E, T, N1), N1 < N2,
+  firesAt(T, N1), N1 < N2,
   initiates(T, F, P, N1),
-  not clipped(N1, F, P, N2).
+  not clipped(N1, F, P, N2),
+  place(P), transition(T), fluent(F), time(N1), time(N2).
+
 clipped(N1, F, P, N2) :-
-  firesAt(E, T, N), N1 <= N, N < N2,
-terminates(T, F, P, N).
+  firesAt(T, N), N1 <= N, N < N2,
+  terminates(T, F, P, N),
+  place(P), transition(T), fluent(F), time(N1), time(N2), time(N).
 """
 
     @staticmethod
     def build_operational_axioms():
         return """{prefiresAt(T, N)} :-
-  enabled(T, N).
+  enabled(T, N), transition(T), time(N).
+
 someTransitionPrefiresAt(N) :-
-  prefiresAt(T, N).
-:- N > 0, not someTransitionPrefiresAt(N - 1).
-:- prefiresAt(T1, N), prefiresAt(T2, N), T1 != T2.
+  prefiresAt(T, N), transition(T), time(N).
+
+prefiresAt(T, N) :- enabled(T, N), transition(T), time(0).
+:- N > 0, not someTransitionPrefiresAt(N - 1), time(N).
+:- prefiresAt(T1, N), prefiresAt(T2, N), T1 != T2, transition(T1), transition(T2), time(N).
 """
+    @staticmethod
+    def build_timerange(maxtime):
+        return "time(0.."+str(maxtime)+")."
 
     @staticmethod
     def build_place(place):
@@ -102,6 +113,7 @@ someTransitionPrefiresAt(N) :-
 
         return code
 
+    @staticmethod
     def build_place_binding(binding):
         code = ""
         if binding.operator is BindingOperator.AND:
@@ -196,7 +208,7 @@ someTransitionPrefiresAt(N) :-
             code += self.build_transition_binding(binding)
         return code
 
-    def build_event_calculus_program(self):
+    def build_event_calculus_program(self, maxtime):
         code = ""
         code += "% Event Calculus axioms \n" + self.build_event_calculus_axioms() + "\n"
         code += "% Operational axioms \n" + self.build_operational_axioms() + "\n"
@@ -204,5 +216,34 @@ someTransitionPrefiresAt(N) :-
         code += "% Transitions \n" + self.build_transitions() + "\n"
         code += "% Bindings on places \n" + self.build_place_bindings() + "\n"
         code += "% Bindings on transitions \n" + self.build_transition_bindings() + "\n"
+        code += "% Time range \n" + self.build_timerange(maxtime)
         return code
 
+    def update_n_models(self, model):
+        print model
+        self.n_models += 1
+
+    def solve(self, maxtime):
+        self.n_models = 0
+
+        code = self.build_event_calculus_program(maxtime)
+
+        out_file = open("../tmp/ec.lp", "w")
+        out_file.write(code)
+        out_file.close()
+
+        ## create the ASP solver control for
+        prg = Control()
+        prg.configuration.solve.models = 0  # to obtain all answer sets
+        with prg.builder() as builder:
+            parse_program(code, lambda statement: builder.add(statement))
+        prg.ground([("base", [])])
+
+        start = timer()
+        prg.solve(on_model=self.update_n_models, assumptions=())
+        end = timer()
+
+        timing = end - start
+        print str(self.n_models) + " answer sets found in " + str(timing) + " ms."
+
+        return timing

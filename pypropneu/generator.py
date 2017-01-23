@@ -39,25 +39,34 @@ def buildImpliesBinding(n1, n2, n3):
 def buildEquivalenceBinding(n1, n2, n3):
     return buildBinding(n1, n2, n3, BindingOperator.EQUIV)
 
-places = []
-transitions = []
-arcs = []
-p_bindings = []
-t_bindings = []
 
-p1 = Place(marking=True)
-for i in range(1, 2):
-    p2 = Place()
-    places.extend([p1, p2])
-    (t1, (a1, a2)) = buildSerial(p1, p2)
-    transitions.append(t1)
-    arcs.extend([a1, a2])
-    p1 = p2
+def buildSerialPetriNet(n=2):
+    places = []
+    transitions = []
+    arcs = []
+    p_bindings = []
+    t_bindings = []
 
-# net = PetriNetAnalysis(places, transitions, arcs)
-#
-# net.run_analysis(200)
+    p1 = Place(marking=True)
+    for i in range(1, 2):
+        p2 = Place()
+        places.extend([p1, p2])
+        (t1, (a1, a2)) = buildSerial(p1, p2)
+        transitions.append(t1)
+        arcs.extend([a1, a2])
+        p1 = p2
+
+    return places, transitions, arcs, p_bindings, t_bindings
+
+
+(places, transitions, arcs, p_bindings, t_bindings) = buildSerialPetriNet()
+
+net = PetriNetAnalysis(places, transitions, arcs)
+net.run_analysis()
+
+print net.base_path
+
+(places, transitions, arcs, p_bindings, t_bindings) = buildSerialPetriNet()
 
 netEC = PetriNetEventCalculus(places, transitions, arcs)
-
-print netEC.build_event_calculus_program()
+netEC.solve(1)

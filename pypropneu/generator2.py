@@ -56,66 +56,58 @@ def buildSerialPetriNet(n=1):
 
     return places, transitions, arcs
 
-def buildForkPetriNet(n=1, p1=None):
+def buildForkPetriNet(depth=1, outputs=2, p_input=None):
     places = []
     transitions = []
     arcs = []
 
-    if p1 is None:
-        p1 = Place(marking=True)
+    if p_input is None:
+        p_input = Place(marking=True)
+    places.append(p_input)
 
-    places.append(p1)
-    t1 = Transition()
-    t2 = Transition()
-    transitions.extend([t1, t2])
-    (a1, a2) = buildFork(p1, t1, t2)
+    for i in range(1, outputs+1):
+        t = Transition()
+        transitions.append(t)
+        a1 = Arc(p_input, t)
+        p_output = Place()
+        a2 = Arc(t, p_output)
+        arcs.extend([a1, a2])
 
-    p2 = Place()
-    p3 = Place()
+        if depth > 1:
+            (inner_places, inner_transitions, inner_arcs) = buildForkPetriNet(depth - 1, outputs, p_output)
+        else:
+            (inner_places, inner_transitions, inner_arcs) = ([p_output], [], [])
 
-    a3 = Arc(t1, p2)
-    a4 = Arc(t2, p3)
-    arcs.extend([a1, a2, a3, a4])
-
-    if n > 1:
-        (inner_places_1, inner_transitions_1, inner_arcs_1) = buildForkPetriNet(n-1, p2)
-        (inner_places_2, inner_transitions_2, inner_arcs_2) = buildForkPetriNet(n-1, p3)
-    else:
-        (inner_places_1, inner_transitions_1, inner_arcs_1) = ([p2], [], [])
-        (inner_places_2, inner_transitions_2, inner_arcs_2) = ([p3], [], [])
-
-    places.extend(inner_places_1)
-    places.extend(inner_places_2)
-    if len(inner_transitions_1) > 0: transitions.extend(inner_transitions_1)
-    if len(inner_transitions_2) > 0: transitions.extend(inner_transitions_2)
-    if len(inner_arcs_1) > 0: arcs.extend(inner_arcs_1)
-    if len(inner_arcs_2) > 0: arcs.extend(inner_arcs_2)
+        places.extend(inner_places)
+        if len(inner_transitions) > 0: transitions.extend(inner_transitions)
+        if len(inner_arcs) > 0: arcs.extend(inner_arcs)
 
     return places, transitions, arcs
 
 evaluation_file = open("../tmp/evaluation.txt", "w")
 
 for i in range(1, 11, 1):
-    for n in range(1, 9, 1):
-        (places, transitions, arcs) = buildForkPetriNet(n)
-        net = PetriNetAnalysis(places, transitions, arcs)
-        (models, timing, iterations) = net.run_analysis(bug=True)
-        evaluation_file.write(str(i) + ";" + str(n) + ";" + "Fork" + ";" + "LPPN" + ";" + str(models) + ";" + str(timing) + "\n")
-
-        (places, transitions, arcs) = buildForkPetriNet(n)
-        netEC = PetriNetEventCalculus(places, transitions, arcs)
-        (models, timing) = netEC.solve(n)
-        evaluation_file.write(str(i) + ";" + str(n) + ";" + "Fork" + ";" + "EC" + ";" + str(models) + ";" + str(timing) + "\n")
-
-    for n in range(1, 52, 5):
+    for n in 1, 2, 4, 8:
         (places, transitions, arcs) = buildSerialPetriNet(n)
         net = PetriNetAnalysis(places, transitions, arcs)
         (models, timing, iterations) = net.run_analysis()
-        evaluation_file.write(str(i) + ";" + str(n) + ";" + "Serial" + ";" + "LPPN" + ";" + str(models) + ";" + str(timing) + "\n")
+        evaluation_file.write(str(i) + ";" + str(n) + ";" + "1s" + ";" + "LPPN" + ";" + str(models) + ";" + str(timing) + "\n")
 
         (places, transitions, arcs) = buildSerialPetriNet(n)
         netEC = PetriNetEventCalculus(places, transitions, arcs)
         (models, timing) = netEC.solve(n-1)
-        evaluation_file.write(str(i) + ";" + str(n) + ";" + "Serial" + ";" + "EC" + ";" + str(models) + ";" + str(timing) + "\n")
+        evaluation_file.write(str(i) + ";" + str(n) + ";" + "1s" + ";" + "EC" + ";" + str(models) + ";" + str(timing) + "\n")
+
+        for d in 1, 2, 3:
+            (places, transitions, arcs) = buildForkPetriNet(n, d)
+            net = PetriNetAnalysis(places, transitions, arcs)
+            (models, timing, iterations) = net.run_analysis(bug=True)
+            evaluation_file.write(
+                str(i) + ";" + str(n) + ";" + str(d) + ";" + "LPPN" + ";" + str(models) + ";" + str(timing) + "\n")
+
+            (places, transitions, arcs) = buildForkPetriNet(n, d)
+            netEC = PetriNetEventCalculus(places, transitions, arcs)
+            (models, timing) = netEC.solve(n)
+            evaluation_file.write(str(i) + ";" + str(n) + ";" + str(d) + ";" + "EC" + ";" + str(models) + ";" + str(timing) + "\n")
 
 evaluation_file.close()

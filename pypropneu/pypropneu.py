@@ -336,7 +336,7 @@ class PetriNetExecution(PetriNetStructure):
                 break
 
         if preFiredTransition is not None:
-            print preFiredTransition.name + " pre-fires"
+            # print preFiredTransition.name + " pre-fires"
 
             # logging.info("resolution bindings on transitions...")
 
@@ -354,7 +354,7 @@ class PetriNetExecution(PetriNetStructure):
 
             events = []
             for firedTransition in self.transitions_to_be_fired:
-                print firedTransition.name + " fires"
+                # print firedTransition.name + " fires"
                 firedTransition.consume_input_tokens()
                 events.append(firedTransition.produce_output_tokens())
             return events
@@ -364,7 +364,7 @@ class PetriNetExecution(PetriNetStructure):
     def fire(self, fired_transitions_group):
         events = []
         for fired_transition in fired_transitions_group.set:
-            print fired_transition.name + " fires"
+            # print fired_transition.name + " fires"
             fired_transition.consume_input_tokens()
             events.append(fired_transition.produce_output_tokens())
         return events
@@ -431,7 +431,7 @@ class PetriNetAnalysis(PetriNetExecution):
         self.fireable_groups = []
         self.t_prog.solve(on_model=self.update_tid)
 
-    def run_analysis(self, iterations = 1000):
+    def run_analysis(self, iterations = 2000, bug=False):
 
         self.init_control()
         self.path_base = deque()
@@ -441,6 +441,7 @@ class PetriNetAnalysis(PetriNetExecution):
         self.base_path = Path()
         self.base_state = None
         self.last_events = ()
+        self.bug = bug ## TODO: nasty bug in counting paths for forks.
 
         start = timer()
         n = 0
@@ -542,8 +543,9 @@ class PetriNetAnalysis(PetriNetExecution):
 
         next_events = None
 
-        if self.restarted is False:
-            self.path_base.remove(self.base_path)
+        if self.bug is False:
+            if self.restarted is False:
+                self.path_base.remove(self.base_path)
 
         # the execution is complete if in the execution path we find the same state before the last one
         # if it is not complete, check for new events to fire
@@ -582,7 +584,6 @@ class PetriNetAnalysis(PetriNetExecution):
                     self.current_state = step
                     self.current_path = self.current_path.clone(i)
                     self.load_state(step)
-                    print "removing "+str(self.base_path)
                     self.path_base.remove(self.base_path)
                     self.base_path = self.current_path
                     self.base_state = self.current_state

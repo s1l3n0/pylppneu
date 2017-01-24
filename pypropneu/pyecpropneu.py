@@ -35,7 +35,7 @@ clipped(N1, F, P, N2) :-
 someTransitionPrefiresAt(N) :-
   prefiresAt(T, N), transition(T), time(N).
 
-prefiresAt(T, N) :- enabled(T, N), transition(T), time(0).
+:- not someTransitionPrefiresAt(0).
 :- N > 0, not someTransitionPrefiresAt(N - 1), time(N).
 :- prefiresAt(T1, N), prefiresAt(T2, N), T1 != T2, transition(T1), transition(T2), time(N).
 """
@@ -59,8 +59,8 @@ prefiresAt(T, N) :- enabled(T, N), transition(T), time(0).
                     raise ValueError("Not yet implemented.")
             code += ":- 2{"
             for t in transitions:
-                code += "terminates("+t.nid+", filled, "+place.nid+", N), "
-            code = code[:-2]+"}."
+                code += "terminates("+t.nid+", filled, "+place.nid+", N); "
+            code = code[:-2]+"}.\n"
         return code
 
     def build_places(self):
@@ -220,7 +220,6 @@ prefiresAt(T, N) :- enabled(T, N), transition(T), time(0).
         return code
 
     def update_n_models(self, model):
-        print model
         self.n_models += 1
 
     def solve(self, maxtime):
@@ -235,6 +234,7 @@ prefiresAt(T, N) :- enabled(T, N), transition(T), time(0).
         ## create the ASP solver control for
         prg = Control()
         prg.configuration.solve.models = 0  # to obtain all answer sets
+
         with prg.builder() as builder:
             parse_program(code, lambda statement: builder.add(statement))
         prg.ground([("base", [])])
@@ -246,4 +246,4 @@ prefiresAt(T, N) :- enabled(T, N), transition(T), time(0).
         timing = end - start
         print str(self.n_models) + " answer sets found in " + str(timing) + " ms."
 
-        return timing
+        return (self.n_models, timing)

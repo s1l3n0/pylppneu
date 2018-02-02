@@ -1,10 +1,10 @@
 # pypneu
-*Python libraries for Logic Programming Petri Nets (LPPN)*
+*Python library for Logic Programming Petri Nets (LPPN)*
 
-In contrast to `pneu`/`lppneu`, coded in `Groovy`/`Java` and relying on `lparse+smodels`, here we exploit the python module of `clingo`, an instance of the declarative bindings is maintained within the script, without requiring regrounding at each cycle.
-Performances are much better!
+LPPN integrates procedural aspects specified by Petri Nets with declarative specified by Logic Programming (ASP). 
+In contrast to `lppneu`, coded in `Java` and calling the ASP solver `lparse+smodels`, `pypneu` exploits the python module of `clingo`; this means that an instance of the declarative bindings is maintained within the script, without requiring regrounding at each cycle. Performances are much better.
 
-## Modules
+## files
 
 - **pypneu**: basic Petri Nets (PN) interpreter (execution, analysis) 
 - **pypropneu**: propositional LPPNs interpreter providing two operational semantics 
@@ -12,7 +12,7 @@ Performances are much better!
   - *denotational*: translating the net to ASP using Event-Calculus, and calling `clingo`.
 - **proplanguage**: propositional ASP-like language parser
 
-## Dependencies:
+## dependencies
 
 **clingo** (the ASP solver)
 - download the sources from [https://github.com/potassco/clingo]

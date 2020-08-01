@@ -1,0 +1,30 @@
+from pypropneu import Place, Transition, Arc, Binding, BindingOperator, PetriNetAnalysis
+from pyecpropneu import PetriNetEventCalculus
+
+e1 = Transition("e1")
+e2 = Transition("e2")
+e3 = Transition("e3")
+c1 = Place("c1", True)
+c2 = Place("c2", False)
+c3 = Place("c3", False)
+c4 = Place("c4", True)
+c5 = Place("c5", False)
+lp = Binding(BindingOperator.IMPLIES)
+lt = Binding(BindingOperator.IMPLIES)
+a1 = Arc(c1, e2)
+a2 = Arc(c1, e1)
+a3 = Arc(e1, c2)
+a4 = Arc(c2, lp)
+a5 = Arc(lp, c5)
+a6 = Arc(e1, lt)
+a7 = Arc(lt, e3)
+a8 = Arc(c4, e3)
+a9 = Arc(e3, c3)
+
+# net = PetriNetAnalysis([c1, c2, c3, c4, c5], [e1, e2, e3], [a1, a2, a3, a4, a5, a6, a7, a8, a9], [lp], [lt])
+# print(net)
+# net.run_analysis()
+# print(net.path_base)
+
+netEC = PetriNetEventCalculus([c1, c2, c3, c4, c5], [e1, e2, e3], [a1, a2, a3, a4, a5, a6, a7, a8, a9], [lp], [lt])
+(models, timing) = netEC.solve(2)

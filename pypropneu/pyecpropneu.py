@@ -183,7 +183,7 @@ someTransitionPrefiresAt(N) :-
             for place in inhibiting_places:
                 code += "not holdsAt(filled, "+place.nid+", N), "
 
-            code += "firesAt(" + transition.nid + ", N), enabled(" + transition.nid +", N).\n"
+            code += "firesAt(" + transition.nid + ", N), enabled(" + binding.outputs[0].target.nid +", N).\n"
 
         elif binding.operator is BindingOperator.EQUIV:
             raise ValueError("Not yet implemented")

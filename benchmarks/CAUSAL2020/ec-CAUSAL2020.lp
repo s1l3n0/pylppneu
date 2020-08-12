@@ -59,7 +59,7 @@ initiates(e3, filled, c3, N) :- firesAt(e3, N).
 holdsAt(filled, c5, N) :- holdsAt(filled, c2, N).
 
 % Bindings on transitions 
-firesAt(e3, N) :- firesAt(e1, N).
+firesAt(e3, N) :- firesAt(e1, N), enabled(e3, N).
 
 % Time range 
 time(0..10).
